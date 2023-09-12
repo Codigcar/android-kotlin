@@ -3,5 +3,7 @@
     <string name="text1">Text1</string>
     <string name="text2">Text2</string>
     <string name="text3">Text3</string>
+    <string name="gradient_background">gradient_background</string>
+    <string name="google_img">google_img</string>
 
 </resources>
