@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">university_login</string>
+    <string name="text1">Text1</string>
+    <string name="text2">Text2</string>
+    <string name="text3">Text3</string>
+
 </resources>
