@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.Card
@@ -23,6 +24,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.wear.compose.material3.ContentAlpha
 import androidx.wear.compose.material3.LocalContentAlpha
 import com.example.myapplication.myapplication.restaurant.ui.theme.RestaurantTheme
@@ -102,12 +104,14 @@ fun RestaurantItem (item: Restaurant) {
 @Preview(showBackground = true, device = Devices.PIXEL_2)
 @Composable
 fun RestaurantScreen() {
+    val viewModel: RestaurantsViewModel = viewModel()
     LazyColumn {
-        item {
-            dummyRestaurant.map { restaurant ->
-                RestaurantItem(restaurant)
-            }
-        }
+        /*item {
+            dummyRestaurant.map { restaurant -> RestaurantItem(restaurant) }
+        }*/
+       items(viewModel.getRestaunts()) {
+           restaurant -> RestaurantItem(restaurant)
+       }
 
     }
 }
