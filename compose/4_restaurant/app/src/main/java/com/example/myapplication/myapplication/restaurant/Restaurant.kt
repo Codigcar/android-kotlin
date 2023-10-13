@@ -2,7 +2,9 @@ package com.example.myapplication.myapplication.restaurant
 
 data class Restaurant(val id: Int,
                       val title: String,
-                      val description: String)
+                      val description: String,
+                      val isFavorite: Boolean = false,
+    )
 
 val dummyRestaurant = listOf(
     Restaurant(0, "Alfredo's dishes","At Alfredo's, we provide the best seafood dishes."),
