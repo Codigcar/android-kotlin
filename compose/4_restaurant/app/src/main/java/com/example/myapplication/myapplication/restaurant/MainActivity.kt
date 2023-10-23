@@ -17,10 +17,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -64,11 +61,11 @@ fun GreetingPreview() {
 }
 
 @Composable
-fun RestaurantIcon(icon: ImageVector, modifier: Modifier) {
+fun RestaurantIcon(icon: ImageVector, modifier: Modifier, onClick: () -> Unit = {}) {
     Image(
         imageVector = icon,
         contentDescription = "icon",
-        modifier = modifier.padding(8.dp),
+        modifier = modifier.padding(8.dp).clickable { onClick() },
     )
 }
 
@@ -98,25 +95,30 @@ fun FavoriteIcon(modifier: Modifier, icon:ImageVector, onClick: () -> Unit) {
 }
 
 @Composable
-fun RestaurantItem (item: Restaurant) {
+fun RestaurantItem (item: Restaurant, onClick: (id: Int) -> Unit) {
     Card ( modifier = Modifier.padding(8.dp) ) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)) {
-            val favoriteState = remember { mutableStateOf(false) }
-            val icon = if (favoriteState.value) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder
+            //val favoriteState = remember { mutableStateOf(false) }
+            //val icon = if (favoriteState.value) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder
+            val icon = if (item.isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder
 
             RestaurantIcon(
                 icon = Icons.Filled.Place,
-                modifier = Modifier.weight(0.15f)
+                modifier = Modifier.weight(0.15f),
             )
             RestaurantDetails(
                 title = item.title,
                 description = item.description,
                 modifier = Modifier.weight(0.85f)
             )
-            FavoriteIcon(
+            /*FavoriteIcon(
                 modifier = Modifier.weight(0.15f),
                 icon = icon,
-                onClick = {favoriteState.value = !favoriteState.value}
+            )*/
+            RestaurantIcon(
+                icon,
+                Modifier.weight(0.15f),
+                onClick = { onClick(item.id) }
             )
         }
     }
@@ -126,13 +128,33 @@ fun RestaurantItem (item: Restaurant) {
 @Composable
 fun RestaurantScreen() {
     val viewModel: RestaurantsViewModel = viewModel()
+    //val state: MutableState<List<Restaurant>> = remember { mutableStateOf(viewModel.getRestaunts()) }
+
     LazyColumn {
         /*item {
             dummyRestaurant.map { restaurant -> RestaurantItem(restaurant) }
         }*/
-       items(viewModel.getRestaunts()) {
-           restaurant -> RestaurantItem(restaurant)
-       }
+        /*
+        items(viewModel.getRestaunts()) {
+           restaurant -> RestaurantItem(restaurant, )
+        }
+       */
+        /*
+        items(state.value) {
+            restaurant -> RestaurantItem(restaurant, onClick = { id ->
+            val restaurants = state.value.toMutableList()
+            val itemIndex = restaurants.indexOfFirst{ it.id == id }
+            val item = restaurants[itemIndex]
+            restaurants[itemIndex] = item.copy(isFavorite = !item.isFavorite)
+            state.value = restaurants
+            })                                               
+        }*/
+
+        items(viewModel.state.value) {
+            restaurant -> RestaurantItem(restaurant, onClick = { id ->
+                viewModel.toggleFavorite(id)
+            })
+        }
 
     }
 }
