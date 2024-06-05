@@ -45,22 +45,6 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true, name = "test", device = Devices.PIXEL_2)
-@Composable
-fun GreetingPreview() {
-    RestaurantTheme {
-        Greeting("Android")
-    }
-}
-
-@Composable
 fun RestaurantIcon(icon: ImageVector, modifier: Modifier, onClick: () -> Unit = {}) {
     Image(
         imageVector = icon,
@@ -147,7 +131,7 @@ fun RestaurantScreen() {
             val item = restaurants[itemIndex]
             restaurants[itemIndex] = item.copy(isFavorite = !item.isFavorite)
             state.value = restaurants
-            })                                               
+            })
         }*/
 
         items(viewModel.state.value) {

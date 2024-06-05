@@ -12,7 +12,7 @@ data class Restaurant(
     @SerializedName("r_description")
     val description: String,
 
-    val isFavorite: Boolean = false
+    var isFavorite: Boolean = false
 )
 
 val dummyRestaurant = listOf(
